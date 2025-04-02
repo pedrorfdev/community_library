@@ -7,11 +7,11 @@ db.run(`
         email TEXT UNIQUE NOT NULL,
         password TEXT NOT NULL,
         avatar TEXT
-    )
+    )     
 `);
 
 function createUserRepository(newUser) {
-  return new Promise((res, rej) => {
+  return new Promise((resolve, reject) => {
     const { username, email, password, avatar } = newUser;
     db.run(
       `
@@ -21,9 +21,9 @@ function createUserRepository(newUser) {
       [username, email, password, avatar],
       (err) => {
         if (err) {
-          rej(err);
+          reject(err);
         } else {
-          res({ message: "User created" });
+          resolve({ id: this.lastID, ...newUser });
         }
       }
     );
